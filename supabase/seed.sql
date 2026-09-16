@@ -1,0 +1,3 @@
+-- Seed data for local development.
+-- Runs after migrations on `supabase db reset`.
+-- Add sample rows here once you have a local auth user id to reference.
