@@ -6,7 +6,7 @@ export const taskCreateSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().max(2000).optional(),
   priority: prioritySchema.default(2),
-  due_at: z.string().datetime().nullable().optional(),
+  due_at: z.string().datetime({ offset: true }).nullable().optional(),
   category_id: z.string().uuid().nullable().optional(),
 });
 
