@@ -10,7 +10,7 @@ export const budgetCategorySchema = z.object({
 
 export const budgetTransactionSchema = z.object({
   category_id: z.string().uuid().nullable().optional(),
-  amount_cents: z.number().int(),
+  amount_cents: z.number().int().positive(),
   currency: z.string().length(3).default("KES"),
   occurred_on: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   note: z.string().max(200).optional(),

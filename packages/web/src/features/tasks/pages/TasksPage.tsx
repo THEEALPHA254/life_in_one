@@ -14,7 +14,7 @@ import {
 import { TaskFilters, type StatusFilter } from "../components/TaskFilters";
 import { TaskItem } from "../components/TaskItem";
 import { TaskFormDialog } from "../components/TaskFormDialog";
-import { ConfirmDialog } from "../components/ConfirmDialog";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 type Bucket = "Overdue" | "Today" | "Tomorrow" | "This week" | "Later" | "No date";
 const bucketOrder: Bucket[] = ["Overdue", "Today", "Tomorrow", "This week", "Later", "No date"];
