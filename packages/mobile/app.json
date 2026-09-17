@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Life in One",
+    "slug": "life-in-one",
+    "scheme": "lifeinone",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.theealpha.lifeinone"
+    },
+    "android": {
+      "package": "com.theealpha.lifeinone",
+      "adaptiveIcon": {
+        "backgroundColor": "#6366f1"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "@react-native-community/datetimepicker"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
