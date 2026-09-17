@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addHours, endOfDay, startOfDay } from "date-fns";
+import { addHours } from "date-fns";
+
+// All-day storage convention: noon UTC on the target local date.
+function localDateToNoonUtcIso(d: Date): string {
+  return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0)).toISOString();
+}
 import { calendarEventCreateSchema, type CalendarEventInput } from "@lio/core/schemas/calendar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -71,8 +76,11 @@ export function EventFormDialog({ open, onOpenChange, editing, initialStart, onS
     form.setValue("all_day", next, { shouldDirty: true });
     if (!startsAt) return;
     if (next) {
-      form.setValue("starts_at", startOfDay(new Date(startsAt)).toISOString(), { shouldDirty: true });
-      form.setValue("ends_at", endOfDay(new Date(endsAt || startsAt)).toISOString(), { shouldDirty: true });
+      // All-day events store as noon UTC on the target LOCAL date. This avoids
+      // day-shift under timezone conversion (start-of-day in KE+3 becomes
+      // 21:00 UTC the previous day, which then displays on the wrong date).
+      form.setValue("starts_at", localDateToNoonUtcIso(new Date(startsAt)), { shouldDirty: true });
+      form.setValue("ends_at", localDateToNoonUtcIso(new Date(endsAt || startsAt)), { shouldDirty: true });
     }
   };
 

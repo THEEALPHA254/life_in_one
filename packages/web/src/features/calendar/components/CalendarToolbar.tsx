@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,9 @@ interface Props {
   onNext: () => void;
   onToday: () => void;
   onNew: () => void;
+  onSync?: () => void;
+  syncing?: boolean;
+  syncEnabled?: boolean;
 }
 
 const views: { value: CalendarView; label: string }[] = [
@@ -20,7 +23,7 @@ const views: { value: CalendarView; label: string }[] = [
   { value: "day", label: "Day" },
 ];
 
-export function CalendarToolbar({ view, onViewChange, title, onPrev, onNext, onToday, onNew }: Props) {
+export function CalendarToolbar({ view, onViewChange, title, onPrev, onNext, onToday, onNew, onSync, syncing, syncEnabled }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex items-center gap-1">
@@ -52,6 +55,18 @@ export function CalendarToolbar({ view, onViewChange, title, onPrev, onNext, onT
           );
         })}
       </div>
+      {syncEnabled && onSync ? (
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={onSync}
+          disabled={syncing}
+          aria-label={syncing ? "Syncing Google Calendar" : "Sync Google Calendar"}
+          title={syncing ? "Syncing…" : "Sync Google Calendar"}
+        >
+          <RefreshCw className={cn("h-4 w-4", syncing && "animate-spin")} />
+        </Button>
+      ) : null}
       <Button onClick={onNew}>
         <Plus className="h-4 w-4" /> New event
       </Button>

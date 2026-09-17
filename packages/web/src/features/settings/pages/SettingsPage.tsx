@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { GoogleCalendarSection } from "../components/GoogleCalendarSection";
 
 const accentPresets = ["#6366f1", "#10b981", "#f97316", "#ec4899", "#0ea5e9", "#f59e0b"];
 
@@ -183,6 +184,8 @@ export function SettingsPage() {
           </Button>
         </div>
       </form>
+
+      <GoogleCalendarSection />
     </div>
   );
 }

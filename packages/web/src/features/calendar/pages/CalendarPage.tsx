@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   addDays,
   addMonths,
@@ -22,6 +22,7 @@ import {
   useUpdateEvent,
   type CalendarEventRow,
 } from "../hooks/useCalendarEvents";
+import { useGoogleCalendarAccount, useSyncGoogleCalendar } from "../hooks/useGoogleCalendar";
 
 function rangeFor(view: CalendarView, cursor: Date) {
   if (view === "month") {
@@ -63,6 +64,24 @@ export function CalendarPage() {
   const createEvent = useCreateEvent();
   const updateEvent = useUpdateEvent();
   const deleteEvent = useDeleteEvent();
+  const googleAccountQ = useGoogleCalendarAccount();
+  const syncGoogle = useSyncGoogleCalendar();
+
+  // Auto-sync: on /calendar open, if a Google account is connected and it's
+  // been more than 5 minutes since the last auto-sync, quietly pull. Uses
+  // localStorage so a page reload doesn't retrigger; manual "Sync now" bypasses.
+  useEffect(() => {
+    if (!googleAccountQ.data) return;
+    const key = "lio.calendar.lastAutoSyncAt";
+    const now = Date.now();
+    const last = Number(localStorage.getItem(key) ?? 0);
+    if (now - last <= 5 * 60 * 1000) return;
+    localStorage.setItem(key, String(now));
+    syncGoogle.mutate({ silent: true });
+    // Intentionally only depend on the account presence so this fires once per
+    // page mount, not on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [googleAccountQ.data?.id]);
 
   const openCreate = (start?: Date) => {
     setEditing(null);
@@ -107,6 +126,9 @@ export function CalendarPage() {
         onNext={() => move(1)}
         onToday={() => setCursor(new Date())}
         onNew={() => openCreate()}
+        syncEnabled={!!googleAccountQ.data}
+        syncing={syncGoogle.isPending}
+        onSync={() => syncGoogle.mutate()}
       />
 
       {eventsQ.isLoading && !eventsQ.data ? (

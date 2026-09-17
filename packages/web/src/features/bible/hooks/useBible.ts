@@ -36,6 +36,7 @@ export interface BibleNoteWithVerses extends BibleNoteRow {
 const bibleConfig = {
   apiKey: import.meta.env.VITE_BIBLE_API_KEY || undefined,
   baseUrl: import.meta.env.VITE_BIBLE_API_BASE || undefined,
+  bibleId: import.meta.env.VITE_BIBLE_ID || undefined,
 };
 
 const noteKey = (id: string) => ["bible", "note", id] as const;
