@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "@/components/ui/Card";
 import { ScreenHeader } from "@/components/ui/ScreenHeader";
 import { useAuth } from "@/providers/AuthProvider";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 function greetingFor(hour: number) {
   if (hour < 5) return "Late night";
@@ -26,6 +27,7 @@ const shortcuts = [
 ] as const;
 
 export default function DashboardScreen() {
+  const colors = useThemeColors();
   const { user } = useAuth();
   const now = new Date();
   const name = (user?.user_metadata?.display_name as string | undefined) ?? user?.email?.split("@")[0] ?? "there";
@@ -65,7 +67,7 @@ export default function DashboardScreen() {
                     >
                       <s.icon size={18} color={s.fg} />
                     </View>
-                    <ArrowUpRight size={16} color="#94a3b8" />
+                    <ArrowUpRight size={16} color={colors.mutedForeground} />
                   </View>
                   <Text className="text-[15px] font-semibold text-foreground">{s.label}</Text>
                 </Card>

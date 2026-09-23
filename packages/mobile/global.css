@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fallback values used before ThemeProvider mounts. Actual runtime values are
+ * injected by ThemeProvider via NativeWind's vars(), scoped to a wrapper View. */
+@layer base {
+  :root {
+    --color-primary: 99 102 241;
+    --color-primary-fg: 255 255 255;
+    --color-primary-soft: 224 231 255;
+    --color-background: 247 248 250;
+    --color-surface: 255 255 255;
+    --color-foreground: 15 23 42;
+    --color-foreground-2: 51 65 85;
+    --color-muted: 241 245 249;
+    --color-muted-fg: 100 116 139;
+    --color-border: 226 232 240;
+    --color-destructive: 239 68 68;
+    --color-destructive-soft: 254 226 226;
+    --color-success: 16 185 129;
+    --color-success-soft: 209 250 229;
+  }
+}

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Text, TextInput, View, type TextInputProps } from "react-native";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 interface Props {
   label: string;
@@ -17,16 +18,14 @@ export function Field({ label, error, children }: Props) {
   );
 }
 
-// Convenience: a themed TextInput matching Field's aesthetic.
+// Themed TextInput matching Field's aesthetic.
 export function Input(props: TextInputProps) {
+  const colors = useThemeColors();
   return (
     <TextInput
-      placeholderTextColor="#94a3b8"
+      placeholderTextColor={colors.mutedForeground}
       className="h-12 rounded-xl bg-surface px-4 text-[15px] text-foreground"
-      style={{
-        borderWidth: 1,
-        borderColor: "#e2e8f0",
-      }}
+      style={[{ borderWidth: 1, borderColor: colors.border }, props.style]}
       {...props}
     />
   );

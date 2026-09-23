@@ -6,6 +6,7 @@ import { Pressable, Text, View } from "react-native";
 import { Card } from "@/components/ui/Card";
 import { PriorityBadge } from "./PriorityBadge";
 import type { TaskCategoryRow, TaskRow } from "../hooks/useTasks";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 interface Props {
   task: TaskRow;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function _TaskItem({ task, categories, onToggle, onEdit, onDelete }: Props) {
+  const colors = useThemeColors();
   const done = !!task.completed_at;
   const category = task.category_id ? categories.find((c) => c.id === task.category_id) : undefined;
 
@@ -24,8 +26,8 @@ function _TaskItem({ task, categories, onToggle, onEdit, onDelete }: Props) {
   const dueOverdue = !!due && !done && isPast(due) && !isToday(due);
   const dueToday = !!due && !done && isToday(due);
 
-  const dueBg = dueOverdue ? "#fef2f2" : dueToday ? "#eef2ff" : "#f8fafc";
-  const dueFg = dueOverdue ? "#b91c1c" : dueToday ? "#4338ca" : "#64748b";
+  const dueBg = dueOverdue ? colors.destructiveSoft : dueToday ? "#eef2ff" : colors.foreground;
+  const dueFg = dueOverdue ? "#b91c1c" : dueToday ? "#4338ca" : colors.mutedForeground;
 
   return (
     <Card className="flex-row items-start gap-3 p-4">
@@ -44,13 +46,13 @@ function _TaskItem({ task, categories, onToggle, onEdit, onDelete }: Props) {
           borderColor: done ? "#6366f1" : "#cbd5e1",
         }}
       >
-        {done ? <Check size={14} color="#ffffff" strokeWidth={3} /> : null}
+        {done ? <Check size={14} color={colors.surface} strokeWidth={3} /> : null}
       </Pressable>
 
       <View className="flex-1 gap-1.5">
         <Text
           className="text-[15px] font-semibold"
-          style={done ? { textDecorationLine: "line-through", color: "#94a3b8" } : { color: "#0f172a" }}
+          style={done ? { textDecorationLine: "line-through", color: colors.mutedForeground } : { color: colors.foreground }}
         >
           {task.title}
         </Text>
@@ -77,7 +79,7 @@ function _TaskItem({ task, categories, onToggle, onEdit, onDelete }: Props) {
           {category ? (
             <View
               className="rounded-full px-2.5 py-1"
-              style={{ backgroundColor: (category.color ?? "#94a3b8") + "1a" }}
+              style={{ backgroundColor: (category.color ?? colors.mutedForeground) + "1a" }}
             >
               <Text style={{ color: category.color ?? "#475569", fontSize: 11, fontWeight: "500" }}>
                 {category.name}
@@ -89,10 +91,10 @@ function _TaskItem({ task, categories, onToggle, onEdit, onDelete }: Props) {
 
       <View className="gap-1.5">
         <Pressable onPress={() => onEdit(task)} hitSlop={6} className="h-8 w-8 items-center justify-center rounded-full bg-muted">
-          <Pencil size={14} color="#64748b" />
+          <Pencil size={14} color={colors.mutedForeground} />
         </Pressable>
         <Pressable onPress={() => onDelete(task)} hitSlop={6} className="h-8 w-8 items-center justify-center rounded-full bg-muted">
-          <Trash2 size={14} color="#64748b" />
+          <Trash2 size={14} color={colors.mutedForeground} />
         </Pressable>
       </View>
     </Card>

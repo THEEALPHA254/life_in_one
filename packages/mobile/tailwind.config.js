@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -10,21 +11,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#6366f1",
-        "primary-foreground": "#ffffff",
-        "primary-soft": "#e0e7ff",
-        // Screen sits on subtle off-white so white surfaces pop with soft shadow
-        background: "#f7f8fa",
-        surface: "#ffffff",
-        foreground: "#0f172a",
-        "foreground-2": "#334155",
-        muted: "#f1f5f9",
-        "muted-foreground": "#64748b",
-        border: "#e2e8f0",
-        destructive: "#ef4444",
-        "destructive-soft": "#fee2e2",
-        success: "#10b981",
-        "success-soft": "#d1fae5",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
+        "primary-foreground": "rgb(var(--color-primary-fg) / <alpha-value>)",
+        "primary-soft": "rgb(var(--color-primary-soft) / <alpha-value>)",
+        background: "rgb(var(--color-background) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        foreground: "rgb(var(--color-foreground) / <alpha-value>)",
+        "foreground-2": "rgb(var(--color-foreground-2) / <alpha-value>)",
+        muted: "rgb(var(--color-muted) / <alpha-value>)",
+        "muted-foreground": "rgb(var(--color-muted-fg) / <alpha-value>)",
+        border: "rgb(var(--color-border) / <alpha-value>)",
+        destructive: "rgb(var(--color-destructive) / <alpha-value>)",
+        "destructive-soft": "rgb(var(--color-destructive-soft) / <alpha-value>)",
+        success: "rgb(var(--color-success) / <alpha-value>)",
+        "success-soft": "rgb(var(--color-success-soft) / <alpha-value>)",
       },
     },
   },
