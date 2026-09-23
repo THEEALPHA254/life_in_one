@@ -1,8 +1,10 @@
 import { Redirect, Tabs } from "expo-router";
 import { BookOpen, Calendar as CalendarIcon, CheckSquare, Home, MoreHorizontal } from "lucide-react-native";
 import { useAuth } from "@/providers/AuthProvider";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 export default function AppLayout() {
+  const colors = useThemeColors();
   const { session, loading } = useAuth();
   if (loading) return null;
   if (!session) return <Redirect href="/(auth)/login" />;
@@ -12,11 +14,11 @@ export default function AppLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "#6366f1",
-        tabBarInactiveTintColor: "#94a3b8",
+        tabBarInactiveTintColor: colors.mutedForeground,
         tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
         tabBarStyle: {
-          backgroundColor: "#ffffff",
-          borderTopColor: "#e2e8f0",
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
           height: 62,
           paddingTop: 6,
           paddingBottom: 8,

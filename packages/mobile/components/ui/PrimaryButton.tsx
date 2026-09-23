@@ -1,6 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { ActivityIndicator, Pressable, Text, type PressableProps } from "react-native";
 import type { ReactNode } from "react";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 interface Props extends Omit<PressableProps, "children"> {
   label: string;
@@ -10,8 +11,10 @@ interface Props extends Omit<PressableProps, "children"> {
 }
 
 export function PrimaryButton({ label, loading, variant = "primary", leading, onPress, disabled, ...rest }: Props) {
-  const bg = variant === "primary" ? "#6366f1" : variant === "destructive" ? "#ef4444" : "transparent";
-  const fg = variant === "ghost" ? "#0f172a" : "#ffffff";
+  const colors = useThemeColors();
+  const bg =
+    variant === "primary" ? colors.primary : variant === "destructive" ? colors.destructive : "transparent";
+  const fg = variant === "ghost" ? colors.foreground : colors.surface;
   return (
     <Pressable
       onPress={(e) => {

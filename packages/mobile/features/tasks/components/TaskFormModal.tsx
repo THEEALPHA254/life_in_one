@@ -15,6 +15,7 @@ import type { TaskCreateInput } from "@lio/core/schemas/tasks";
 import { Field, Input } from "@/components/ui/Field";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import type { TaskCategoryRow, TaskRow } from "../hooks/useTasks";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 interface Props {
   visible: boolean;
@@ -33,6 +34,7 @@ const priorities: { value: 1 | 2 | 3 | 4; label: string; color: string }[] = [
 ];
 
 export function TaskFormModal({ visible, editing, categories, onClose, onSubmit, submitting }: Props) {
+  const colors = useThemeColors();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<1 | 2 | 3 | 4>(2);
@@ -70,11 +72,11 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ flex: 1, backgroundColor: "#f7f8fa" }}
+        style={{ flex: 1, backgroundColor: colors.background }}
       >
         <View className="flex-row items-center gap-3 border-b border-border bg-surface px-5 py-4">
           <Pressable onPress={onClose} hitSlop={8} className="h-9 w-9 items-center justify-center rounded-full bg-muted">
-            <X size={18} color="#334155" />
+            <X size={18} color={colors.foreground2} />
           </Pressable>
           <Text className="flex-1 text-[17px] font-semibold text-foreground">
             {editing ? "Edit task" : "New task"}
@@ -114,13 +116,13 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
                     onPress={() => setPriority(p.value)}
                     className="flex-1 items-center rounded-xl border py-2.5"
                     style={{
-                      borderColor: active ? p.color : "#e2e8f0",
-                      backgroundColor: active ? p.color + "15" : "#ffffff",
+                      borderColor: active ? p.color : colors.border,
+                      backgroundColor: active ? p.color + "15" : colors.surface,
                     }}
                   >
                     <Text
                       style={{
-                        color: active ? p.color : "#64748b",
+                        color: active ? p.color : colors.mutedForeground,
                         fontSize: 13,
                         fontWeight: active ? "600" : "500",
                       }}
@@ -138,10 +140,10 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
               <Pressable
                 onPress={() => setShowPicker("date")}
                 className="h-12 flex-1 flex-row items-center gap-2 rounded-xl bg-surface px-4"
-                style={{ borderWidth: 1, borderColor: "#e2e8f0" }}
+                style={{ borderWidth: 1, borderColor: colors.border }}
               >
-                <CalendarIcon size={16} color="#64748b" />
-                <Text style={{ color: dueAt ? "#0f172a" : "#94a3b8", fontSize: 15 }}>
+                <CalendarIcon size={16} color={colors.mutedForeground} />
+                <Text style={{ color: dueAt ? colors.foreground : colors.mutedForeground, fontSize: 15 }}>
                   {dueAt ? format(dueAt, "EEE, d MMM · HH:mm") : "Pick a date & time"}
                 </Text>
               </Pressable>
@@ -150,7 +152,7 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
                   onPress={() => setDueAt(null)}
                   className="h-12 items-center justify-center rounded-xl bg-muted px-4"
                 >
-                  <Text style={{ color: "#64748b", fontSize: 13, fontWeight: "600" }}>Clear</Text>
+                  <Text style={{ color: colors.mutedForeground, fontSize: 13, fontWeight: "600" }}>Clear</Text>
                 </Pressable>
               ) : null}
             </View>
@@ -163,11 +165,11 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
                 className="rounded-full px-3.5 py-2"
                 style={{
                   borderWidth: 1,
-                  borderColor: categoryId === null ? "#6366f1" : "#e2e8f0",
-                  backgroundColor: categoryId === null ? "#eef2ff" : "#ffffff",
+                  borderColor: categoryId === null ? "#6366f1" : colors.border,
+                  backgroundColor: categoryId === null ? "#eef2ff" : colors.surface,
                 }}
               >
-                <Text style={{ color: categoryId === null ? "#4338ca" : "#64748b", fontSize: 13, fontWeight: "500" }}>
+                <Text style={{ color: categoryId === null ? "#4338ca" : colors.mutedForeground, fontSize: 13, fontWeight: "500" }}>
                   No category
                 </Text>
               </Pressable>
@@ -181,11 +183,11 @@ export function TaskFormModal({ visible, editing, categories, onClose, onSubmit,
                     className="rounded-full px-3.5 py-2"
                     style={{
                       borderWidth: 1,
-                      borderColor: active ? colour : "#e2e8f0",
-                      backgroundColor: active ? colour + "18" : "#ffffff",
+                      borderColor: active ? colour : colors.border,
+                      backgroundColor: active ? colour + "18" : colors.surface,
                     }}
                   >
-                    <Text style={{ color: active ? colour : "#64748b", fontSize: 13, fontWeight: "500" }}>
+                    <Text style={{ color: active ? colour : colors.mutedForeground, fontSize: 13, fontWeight: "500" }}>
                       {c.name}
                     </Text>
                   </Pressable>

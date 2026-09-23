@@ -8,6 +8,7 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { ScreenHeader } from "@/components/ui/ScreenHeader";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/providers/AuthProvider";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 const shortcuts = [
   { href: "/(app)/budget",   label: "Budget",   icon: Wallet,     tint: "#fee2e2", fg: "#b91c1c" },
@@ -18,6 +19,7 @@ const shortcuts = [
 ] as const;
 
 export default function MoreScreen() {
+  const colors = useThemeColors();
   const { user } = useAuth();
   const displayName = (user?.user_metadata?.display_name as string | undefined) ?? user?.email?.split("@")[0] ?? "?";
   const initial = displayName.charAt(0).toUpperCase();
@@ -47,13 +49,13 @@ export default function MoreScreen() {
           {shortcuts.map((s, i) => (
             <Link key={s.href} href={s.href} asChild>
               <Pressable className="flex-row items-center gap-3 px-4 py-3.5"
-                style={i > 0 ? { borderTopWidth: 1, borderTopColor: "#f1f5f9" } : undefined}
+                style={i > 0 ? { borderTopWidth: 1, borderTopColor: colors.muted } : undefined}
               >
                 <View className="h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: s.tint }}>
                   <s.icon size={16} color={s.fg} />
                 </View>
                 <Text className="flex-1 text-[15px] font-medium text-foreground">{s.label}</Text>
-                <ChevronRight size={16} color="#94a3b8" />
+                <ChevronRight size={16} color={colors.mutedForeground} />
               </Pressable>
             </Link>
           ))}

@@ -19,12 +19,14 @@ import { TaskFilters, type StatusFilter } from "@/features/tasks/components/Task
 import { TaskItem } from "@/features/tasks/components/TaskItem";
 import { TaskFormModal } from "@/features/tasks/components/TaskFormModal";
 import { ConfirmDialog } from "@/features/tasks/components/ConfirmDialog";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 type Row =
   | { kind: "header"; title: string; count: number }
   | { kind: "task"; task: TaskRow };
 
-// Colored dot per bucket for visual hierarchy at a glance.
+// Colored dot per bucket. Neutrals are picked to read on both light and dark
+// backgrounds; if you change them, verify contrast in both themes.
 const bucketDot: Record<Bucket | "Done", string> = {
   Overdue: "#ef4444",
   Today: "#6366f1",
@@ -36,6 +38,7 @@ const bucketDot: Record<Bucket | "Done", string> = {
 };
 
 export default function TasksScreen() {
+  const colors = useThemeColors();
   const [status, setStatus] = useState<StatusFilter>("active");
   const [formVisible, setFormVisible] = useState(false);
   const [editing, setEditing] = useState<TaskRow | null>(null);
@@ -124,7 +127,7 @@ export default function TasksScreen() {
             <View className="mt-4 mb-2 flex-row items-center gap-2 first:mt-0">
               <View
                 className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: bucketDot[item.title as Bucket | "Done"] ?? "#94a3b8" }}
+                style={{ backgroundColor: bucketDot[item.title as Bucket | "Done"] ?? colors.mutedForeground }}
               />
               <Text className="text-[12px] font-semibold uppercase tracking-widest text-muted-foreground">
                 {item.title}

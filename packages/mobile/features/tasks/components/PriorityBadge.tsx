@@ -1,15 +1,17 @@
 import { Text, View } from "react-native";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 const labels: Record<number, string> = { 1: "Urgent", 2: "Normal", 3: "Low", 4: "Someday" };
-const colours: Record<number, { bg: string; fg: string; dot: string }> = {
-  1: { bg: "#fef2f2", fg: "#b91c1c", dot: "#ef4444" },
-  2: { bg: "#eef2ff", fg: "#4338ca", dot: "#6366f1" },
-  3: { bg: "#f8fafc", fg: "#64748b", dot: "#94a3b8" },
-  4: { bg: "#f8fafc", fg: "#64748b", dot: "#94a3b8" },
-};
 
 export function PriorityBadge({ priority }: { priority: 1 | 2 | 3 | 4 }) {
-  const c = colours[priority]!;
+  const colors = useThemeColors();
+  const palette: Record<number, { bg: string; fg: string; dot: string }> = {
+    1: { bg: colors.destructiveSoft, fg: colors.destructive, dot: colors.destructive },
+    2: { bg: colors.primarySoft, fg: colors.primary, dot: colors.primary },
+    3: { bg: colors.muted, fg: colors.mutedForeground, dot: colors.mutedForeground },
+    4: { bg: colors.muted, fg: colors.mutedForeground, dot: colors.mutedForeground },
+  };
+  const c = palette[priority]!;
   return (
     <View
       className="flex-row items-center gap-1.5 rounded-full px-2.5 py-1"

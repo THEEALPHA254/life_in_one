@@ -1,5 +1,6 @@
 import * as Haptics from "expo-haptics";
 import { Pressable, Text, View } from "react-native";
+import { useThemeColors } from "@/providers/ThemeProvider";
 
 interface Option<V extends string> {
   value: V;
@@ -13,6 +14,7 @@ interface Props<V extends string> {
 }
 
 export function SegmentedControl<V extends string>({ options, value, onChange }: Props<V>) {
+  const colors = useThemeColors();
   return (
     <View className="flex-row rounded-full bg-muted p-1">
       {options.map((opt) => {
@@ -28,8 +30,8 @@ export function SegmentedControl<V extends string>({ options, value, onChange }:
             }}
             className="flex-1 items-center rounded-full py-2"
             style={active ? {
-              backgroundColor: "#ffffff",
-              shadowColor: "#0f172a",
+              backgroundColor: colors.surface,
+              shadowColor: colors.foreground,
               shadowOpacity: 0.08,
               shadowRadius: 4,
               shadowOffset: { width: 0, height: 1 },
@@ -38,7 +40,7 @@ export function SegmentedControl<V extends string>({ options, value, onChange }:
           >
             <Text
               className="text-[13px]"
-              style={active ? { color: "#0f172a", fontWeight: "600" } : { color: "#64748b" }}
+              style={active ? { color: colors.foreground, fontWeight: "600" } : { color: colors.mutedForeground }}
             >
               {opt.label}
             </Text>
